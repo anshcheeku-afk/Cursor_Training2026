@@ -1,0 +1,226 @@
+:root {
+  --bg0: #e8eef4;
+  --bg1: #f4f7fa;
+  --ink: #15202b;
+  --muted: #5a6b7a;
+  --line: rgba(21, 32, 43, 0.1);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-solid: #ffffff;
+  --accent: #0f766e;
+  --accent-soft: #ccfbf1;
+  --warn: #b45309;
+  --radius: 14px;
+  --shadow: 0 12px 40px rgba(21, 32, 43, 0.08);
+  --font: "Sora", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #c7e7e2 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #d5e3f5 0%, transparent 50%),
+    linear-gradient(165deg, var(--bg0), var(--bg1));
+  background-attachment: fixed;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, #14b8a6, var(--accent));
+  box-shadow: 0 6px 18px rgba(15, 118, 110, 0.35);
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand-tag,
+.header-note,
+.site-footer p,
+.metric-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.header-note {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.hero-strip {
+  margin-bottom: 1.5rem;
+}
+
+.hero-strip h1 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  letter-spacing: -0.03em;
+}
+
+.hero-strip p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 40rem;
+}
+
+.server-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.server-card {
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.15rem 1.25rem 1.25rem;
+}
+
+.server-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hostname {
+  margin: 0;
+  font-size: 1.05rem;
+  font-family: var(--mono);
+  font-weight: 500;
+}
+
+.status {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.55rem;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.status-placeholder {
+  background: #fff7ed;
+  color: var(--warn);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+@media (min-width: 720px) {
+  .metric-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric {
+  background: var(--surface-solid);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.85rem;
+  min-height: 7.5rem;
+}
+
+.metric h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.metric-value {
+  margin: 0 0 0.35rem;
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.metric-ports .port-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.metric-ports .port-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  padding: 0.2rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.metric-ports .port-list li:last-child {
+  border-bottom: none;
+}
+
+.port-num {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.port-proc {
+  color: var(--muted);
+}
+
+.site-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}

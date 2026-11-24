@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard · Server Monitor{% endblock %}
+
+{% block content %}
+<section class="hero-strip">
+  <h1>Infrastructure overview</h1>
+  <p>Placeholder metrics — live SSH collection comes in a later phase.</p>
+</section>
+
+<section class="server-grid" aria-label="Monitored servers">
+  {% for server in servers %}
+  <article class="server-card">
+    <header class="server-card-header">
+      <h2 class="hostname">{{ server.hostname }}</h2>
+      <span class="status status-{{ server.status }}">{{ server.status }}</span>
+    </header>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <h3>CPU</h3>
+        <p class="metric-value">{{ server.cpu }}</p>
+        <p class="metric-hint">usage %</p>
+      </div>
+      <div class="metric">
+        <h3>Memory</h3>
+        <p class="metric-value">{{ server.memory }}</p>
+        <p class="metric-hint">used / total</p>
+      </div>
+      <div class="metric">
+        <h3>Network</h3>
+        <p class="metric-value">↓ {{ server.network_in }} · ↑ {{ server.network_out }}</p>
+        <p class="metric-hint">in / out</p>
+      </div>
+      <div class="metric metric-ports">
+        <h3>Ports</h3>
+        <ul class="port-list">
+          {% for entry in server.ports %}
+          <li><span class="port-num">{{ entry.port }}</span> <span class="port-proc">{{ entry.process }}</span></li>
+          {% else %}
+          <li class="empty">No listening ports</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}
