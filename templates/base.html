@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="30">
   <title>{% block title %}Server Monitor{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,16 +17,27 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <div class="brand-text">
           <p class="brand-name">Server Monitor</p>
-          <p class="brand-tag">Linux metrics · local demo</p>
+          <p class="brand-tag">Linux metrics · local demo · no login</p>
         </div>
       </div>
-      <p class="header-note">Read-only view</p>
+      <p class="header-note">Auto-refresh 30s · read-only metrics</p>
     </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class="flash-list" aria-live="polite">
+        {% for category, message in messages %}
+        <li class="flash flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+
     <main class="content">
       {% block content %}{% endblock %}
     </main>
     <footer class="site-footer">
-      <p>Local demo only · bound to 127.0.0.1</p>
+      <p>Local demo only · bound to 127.0.0.1 · no app password</p>
     </footer>
   </div>
 </body>

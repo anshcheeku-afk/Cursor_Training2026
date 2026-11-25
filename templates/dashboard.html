@@ -5,7 +5,20 @@
 {% block content %}
 <section class="hero-strip">
   <h1>Infrastructure overview</h1>
-  <p>Placeholder metrics — live SSH collection comes in a later phase.</p>
+  <p>Live SSH metrics for registered Linux hosts (CPU, memory, network totals, listening ports).</p>
+</section>
+
+<section class="manage-panel" aria-label="Manage servers">
+  <h2>Monitored servers <span class="count">{{ server_count }} / {{ max_servers }}</span></h2>
+  <form class="add-form" method="post" action="{{ url_for('main.servers_add') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="hostname">Hostname</label>
+    <div class="add-row">
+      <input id="hostname" name="hostname" type="text" maxlength="253"
+             placeholder="e.g. web01.lab or 192.168.1.10" required autocomplete="off">
+      <button type="submit">Add server</button>
+    </div>
+  </form>
 </section>
 
 <section class="server-grid" aria-label="Monitored servers">
@@ -13,14 +26,25 @@
   <article class="server-card">
     <header class="server-card-header">
       <h2 class="hostname">{{ server.hostname }}</h2>
-      <span class="status status-{{ server.status }}">{{ server.status }}</span>
+      <div class="header-actions">
+        <span class="status status-{{ server.status }}">{{ server.status }}</span>
+        <form method="post" action="{{ url_for('main.servers_delete', server_id=server.id) }}"
+              onsubmit="return confirm('Remove {{ server.hostname }}?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn-danger" title="Remove server">Remove</button>
+        </form>
+      </div>
     </header>
+
+    {% if server.error %}
+    <p class="host-error">{{ server.error }}</p>
+    {% endif %}
 
     <div class="metric-grid">
       <div class="metric">
         <h3>CPU</h3>
         <p class="metric-value">{{ server.cpu }}</p>
-        <p class="metric-hint">usage %</p>
+        <p class="metric-hint">busy % (from /proc/stat)</p>
       </div>
       <div class="metric">
         <h3>Memory</h3>
@@ -30,7 +54,7 @@
       <div class="metric">
         <h3>Network</h3>
         <p class="metric-value">↓ {{ server.network_in }} · ↑ {{ server.network_out }}</p>
-        <p class="metric-hint">in / out</p>
+        <p class="metric-hint">RX / TX totals (non-lo)</p>
       </div>
       <div class="metric metric-ports">
         <h3>Ports</h3>
@@ -38,12 +62,14 @@
           {% for entry in server.ports %}
           <li><span class="port-num">{{ entry.port }}</span> <span class="port-proc">{{ entry.process }}</span></li>
           {% else %}
-          <li class="empty">No listening ports</li>
+          <li class="empty">No listening ports reported</li>
           {% endfor %}
         </ul>
       </div>
     </div>
   </article>
+  {% else %}
+  <p class="empty-state">No servers yet. Add a hostname above (SSH must work from this machine). Each host card will show <strong>CPU</strong>, <strong>Memory</strong>, <strong>Network</strong>, and <strong>Ports</strong>.</p>
   {% endfor %}
 </section>
 {% endblock %}
